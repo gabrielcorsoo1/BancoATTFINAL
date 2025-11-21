@@ -8,13 +8,18 @@ namespace AtlasAir.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Nome é obrigatório.")]
         public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Telefone é obrigatório.")]
+        [RegularExpression(@"^\d{8,15}$", ErrorMessage = "O telefone deve conter apenas números (8 a 15 dígitos).")]
         public string Phone { get; set; } = string.Empty;
 
-        // novo: email para login opcional
+        // email para login opcional
+        [EmailAddress(ErrorMessage = "E-mail inválido.")]
         public string Email { get; set; } = string.Empty;
 
-        // novo: hash da senha (não armazenamos senha em texto plano)
+        // hash da senha (não armazenamos senha em texto plano)
         public string PasswordHash { get; set; } = string.Empty;
 
         // novo: flag para identificar administrador

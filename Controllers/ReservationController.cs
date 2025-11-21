@@ -13,7 +13,7 @@ namespace AtlasAir.Controllers
         private readonly IReservationRepository _reservationRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IFlightRepository _flightRepository;
-        private readonly ISeatRepository _seatRepository;
+        private readonly ISeatRepository _seat_repository;
         private readonly IAirportRepository _airportRepository;
 
         public ReservationController(
@@ -26,12 +26,19 @@ namespace AtlasAir.Controllers
             _reservationRepository = reservationRepository;
             _customerRepository = customerRepository;
             _flightRepository = flightRepository;
-            _seatRepository = seatRepository;
+            _seat_repository = seatRepository;
             _airportRepository = airportRepository;
         }
 
         public async Task<IActionResult> Index()
         {
+            var isAdmin = HttpContext.Session.GetString("IsAdmin") == "1";
+            if (isAdmin)
+            {
+                // administrador vê todas as reservas
+                return View(await _reservationRepository.GetAllAsync());
+            }
+
             var customerId = HttpContext.Session.GetInt32("CustomerId");
             if (customerId.HasValue)
             {
@@ -40,6 +47,7 @@ namespace AtlasAir.Controllers
                 return View(mine);
             }
 
+            // sem sessão (visitante) — mantém comportamento anterior: listar todas
             return View(await _reservationRepository.GetAllAsync());
         }
 
@@ -69,13 +77,13 @@ namespace AtlasAir.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAvailableFlights(int originId, int destinationId)
         {
-            var flights = await _flightRepository.GetFlightsByRouteAsync(originId, destinationId);
+            var flights = await _flightRepository.GetFlightsByRouteAsync(originId, destinationId) ?? new List<Flight>();
 
             var availableFlights = flights.Select(f => new ReservationViewModel.AvailableFlight
             {
                 FlightId = f.Id,
-                OriginAirportName = f.OriginAirport?.Name,
-                DestinationAirportName = f.DestinationAirport?.Name,
+                OriginAirportName = f.OriginAirport?.Name ?? string.Empty,
+                DestinationAirportName = f.DestinationAirport?.Name ?? string.Empty,
                 ScheduledDeparture = f.ScheduledDeparture,
                 ScheduledArrival = f.ScheduledArrival
             });
@@ -89,7 +97,7 @@ namespace AtlasAir.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAvailableSeats(int flightId)
         {
-            var seats = await _seatRepository.GetAvailableSeatsByFlightIdAsync(flightId);
+            var seats = await _seat_repository.GetAvailableSeatsByFlightIdAsync(flightId) ?? new List<Seat>();
             var seatList = seats.Select(s => new { s.Id, s.SeatNumber });
             return Json(seatList);
         }
@@ -132,7 +140,7 @@ namespace AtlasAir.Controllers
 
             ViewData["CustomerId"] = new SelectList(await _customerRepository.GetAllAsync(), "Id", "Name", reservation.CustomerId);
             ViewData["FlightId"] = new SelectList(await _flightRepository.GetAllAsync(), "Id", "FlightNumber", reservation.FlightId);
-            ViewData["SeatId"] = new SelectList(await _seatRepository.GetAllAsync(), "Id", "SeatNumber", reservation.SeatId);
+            ViewData["SeatId"] = new SelectList(await _seat_repository.GetAllAsync(), "Id", "SeatNumber", reservation.SeatId);
             return View(reservation);
         }
 
@@ -150,7 +158,7 @@ namespace AtlasAir.Controllers
 
             ViewData["CustomerId"] = new SelectList(await _customerRepository.GetAllAsync(), "Id", "Name", reservation.CustomerId);
             ViewData["FlightId"] = new SelectList(await _flightRepository.GetAllAsync(), "Id", "FlightNumber", reservation.FlightId);
-            ViewData["SeatId"] = new SelectList(await _seatRepository.GetAllAsync(), "Id", "SeatNumber", reservation.SeatId);
+            ViewData["SeatId"] = new SelectList(await _seat_repository.GetAllAsync(), "Id", "SeatNumber", reservation.SeatId);
             return View(reservation);
         }
 
