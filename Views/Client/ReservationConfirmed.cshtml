@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Reserva Confirmada";
+    var code = ViewBag.ReservationCode as string ?? "";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-5">
+                    <h1 class="h3 mb-3">Reserva Confirmada</h1>
+                    <p class="text-muted mb-3">Obrigado — sua reserva foi confirmada com sucesso.</p>
+
+                    @if (!string.IsNullOrEmpty(code))
+                    {
+                        <p><strong>Código da reserva:</strong> <span class="badge bg-success">@code</span></p>
+                    }
+
+                    <div class="mt-4">
+                        <a asp-controller="Client" asp-action="Search" class="btn btn-outline-secondary">Voltar à busca</a>
+                        <a asp-controller="Reservation" asp-action="Index" class="btn btn-warning ms-2">Minhas Reservas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

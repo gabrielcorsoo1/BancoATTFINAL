@@ -32,6 +32,14 @@ namespace AtlasAir.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var customerId = HttpContext.Session.GetInt32("CustomerId");
+            if (customerId.HasValue)
+            {
+                var all = await _reservationRepository.GetAllAsync() ?? new List<Reservation>();
+                var mine = all.Where(r => r.CustomerId == customerId.Value).ToList();
+                return View(mine);
+            }
+
             return View(await _reservationRepository.GetAllAsync());
         }
 

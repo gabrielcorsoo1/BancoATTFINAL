@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Pagamento";
+    var code = ViewBag.ReservationCode as string ?? "";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h3 class="mb-4">Pagamento — código: <span class="badge bg-secondary">@code</span></h3>
+
+            <form asp-action="PaymentPage" asp-controller="Client" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="code" value="@code" />
+
+                <div class="mb-3">
+                    <label class="form-label">Nome do Titular</label>
+                    <input name="cardHolder" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Número do Cartão</label>
+                    <input name="cardNumber" class="form-control" inputmode="numeric" maxlength="19" required />
+                </div>
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="form-label">Validade (MM/AA)</label>
+                        <input name="expiry" class="form-control" placeholder="MM/AA" required />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="form-label">CVV</label>
+                        <input name="cvv" class="form-control" inputmode="numeric" maxlength="4" required />
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">Pagar</button>
+                    <a asp-action="PaymentConfirmation" asp-route-code="@code" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
