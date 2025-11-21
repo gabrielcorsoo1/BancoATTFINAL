@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AtlasAir.Models.Airport>
+
+@{
+    ViewData["Title"] = "Aeroportos";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="autoCloseAlert" class="alert alert-danger alert-dismissible fade show position-relative overflow-hidden" role="alert">
+        <strong>Erro!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+        <div class="alert-timer-bar"></div>
+    </div>
+} 
+
+<h1>Lista de Aeroportos</h1>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Adicionar Aeroporto</a>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Rua
+            </th>
+            <th>
+                Bairro
+            </th>
+            <th>
+                Cidade
+            </th>
+            <th>
+                UF
+            </th>
+            <th>
+                País
+            </th>
+            <th>
+                CEP
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Neighborhood)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

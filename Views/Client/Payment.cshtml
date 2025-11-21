@@ -1,0 +1,61 @@
+﻿@model AtlasAir.ViewModels.PaymentViewModel
+
+@{
+    ViewData["Title"] = "Pagamento - Fechar Compra";
+}
+
+<h2>Fechar pagamento</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Resumo da compra</h5>
+                <p><strong>Voo:</strong> @Model.Flight?.OriginAirport?.Name &nbsp;→&nbsp; @Model.Flight?.DestinationAirport?.Name</p>
+                <p><strong>Assento:</strong> @Model.Seat?.SeatNumber</p>
+                <p><strong>Preço:</strong> R$ @Model.Price.ToString("F2")</p>
+            </div>
+        </div>
+
+        <form asp-action="Payment" method="post" class="card p-3">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="FlightId" value="@Model.FlightId" />
+            <input type="hidden" name="SeatId" value="@Model.SeatId" />
+
+            <h5 class="mb-3">Dados do cartão (teste)</h5>
+
+            <div class="mb-3">
+                <label class="form-label">Nome no cartão</label>
+                <input name="CardHolder" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Número do cartão</label>
+                <input name="CardNumber" class="form-control" />
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="form-label">Validade (MM/AA)</label>
+                    <input name="Expiration" class="form-control" />
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label">CVV</label>
+                    <input name="Cvv" class="form-control" />
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-warning me-3">Confirmar pagamento (teste)</button>
+                <a asp-action="Seats" asp-route-id="@Model.FlightId" class="btn btn-link">Voltar</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h6>Ajuda</h6>
+            <p>Esta é uma tela de teste — nenhum pagamento real será processado.</p>
+        </div>
+    </div>
+</div>

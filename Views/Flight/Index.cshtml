@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AtlasAir.Models.Flight>
+
+@{
+    ViewData["Title"] = "Voos";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="autoCloseAlert" class="alert alert-danger alert-dismissible fade show position-relative overflow-hidden" role="alert">
+        <strong>Erro!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+        <div class="alert-timer-bar"></div>
+    </div>
+}
+
+<h1>Lista de Voos</h1>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Adicionar Voo</a>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Partida Agendada
+            </th>
+            <th>
+                Partida Real
+            </th>
+            <th>
+                Chegada Agendada
+            </th>
+            <th>
+                Chegada Real
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Origem
+            </th>
+            <th>
+                Destino
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScheduledDeparture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualDeparture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScheduledArrival)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualArrival)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OriginAirport.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestinationAirport.Name)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

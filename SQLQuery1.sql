@@ -1,0 +1,5 @@
+﻿ALTER TABLE dbo.Customer ADD Email NVARCHAR(256) NOT NULL DEFAULT '';
+ALTER TABLE dbo.Customer ADD PasswordHash NVARCHAR(MAX) NOT NULL DEFAULT '';
+ALTER TABLE dbo.Customer ADD IsAdmin BIT NOT NULL DEFAULT 0;
+
+SELECT TOP 1 Email, PasswordHash, IsAdmin FROM dbo.Customer;

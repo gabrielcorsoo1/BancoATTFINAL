@@ -1,0 +1,62 @@
+﻿@model AtlasAir.Models.Reservation
+
+@{
+    ViewData["Title"] = "Excluir Reserva";
+}
+
+<h1>Excluir Reserva</h1>
+
+<h3>Deseja mesmo excluir?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Código da Reserva
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReservationCode)
+        </dd>
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            Data da Reserva
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReservationDate)
+        </dd>
+        <dt class="col-sm-2">
+            Data de Cancelamento
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CancellationDate)
+        </dd>
+        <dt class="col-sm-2">
+            Cliente
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Assento
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Seat.SeatNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Voo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Flight.Id)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" class="mt-4">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Excluir" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar</a>
+    </form>
+</div>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AtlasAir.Models.Reservation>
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Reservas";
+    var session = ViewContext?.HttpContext?.Session;
+    var isAdmin = session?.GetString("IsAdmin") == "1";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="autoCloseAlert" class="alert alert-danger alert-dismissible fade show position-relative overflow-hidden" role="alert">
+        <strong>Erro!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+        <div class="alert-timer-bar"></div>
+    </div>
+}
+
+<h1>Lista de Reservas</h1>
+
+<div class="mb-3">
+    @if (isAdmin)
+    {
+        <a asp-action="Create" class="btn btn-primary">Adicionar Reserva</a>
+    }
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th> Código da reserva </th>
+            <th> Status </th>
+            <th> Data da reserva </th>
+            <th> Data de cancelamento </th>
+            <th> Cliente </th>
+            <th> Assento </th>
+            <th> Origem </th>
+            <th> Destino </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ReservationCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReservationDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.CancellationDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.Customer.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Seat.SeatNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Flight.OriginAirport.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Flight.DestinationAirport.Name)</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        @* botão de reserva rápida: leva para seleção de assentos do voo *@
+                        @{
+                            var flightId = item.FlightId;
+                        }
+                        <a asp-controller="Client" asp-action="Seats" asp-route-id="@flightId" class="btn btn-outline-success">Reservar Agora</a>
+
+                        @if (isAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Editar</a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Detalhes</a>
+                        @if (isAdmin)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Remover</a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

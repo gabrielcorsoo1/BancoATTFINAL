@@ -1,0 +1,15 @@
+@{
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    ViewData["Title"] = "Área do Cliente";
+}
+
+<div class="py-3">
+    <div class="text-center py-5">
+        <h1 class="display-5">Bem-vindo, cliente!</h1>
+        <p class="lead">Esta é uma página simples de teste para clientes — diferente da área de administração.</p>
+
+        <div class="mt-4">
+            <a class="btn btn-primary me-2" asp-controller="Client" asp-action="Search">Ver Voos</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model AtlasAir.Models.FlightSegment
+
+@{
+    ViewData["Title"] = "Editar Conexão";
+}
+
+<h1>Editar Conexão</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="FlightId" class="control-label">Voo</label>
+                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId">
+                    <option value="">-- Selecione o voo</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AircraftId" class="control-label">Aeronave</label>
+                <select asp-for="AircraftId" class="form-control" asp-items="ViewBag.AircraftId">
+                    <option value="">-- Selecione a aeronave</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="SegmentOrder" class="control-label">Ordem do Segmento</label>
+                <input asp-for="SegmentOrder" class="form-control" />
+                <span asp-validation-for="SegmentOrder" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OriginAirportId" class="control-label">Aeroporto de Origem</label>
+                <select asp-for="OriginAirportId" class="form-control" asp-items="ViewBag.OriginAirportId">
+                    <option value="">-- Selecione a origem</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DestinationAirportId" class="control-label">Aeroporto de Destino</label>
+                <select asp-for="DestinationAirportId" class="form-control" asp-items="ViewBag.DestinationAirportId">
+                    <option value="">-- Selecione o destino</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DepartureTime" class="control-label">Hora da Partida</label>
+                <input asp-for="DepartureTime" class="form-control" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ArrivalTime" class="control-label">Hora da Chegada</label>
+                <input asp-for="ArrivalTime" class="form-control" />
+                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 mt-4">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar para a Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

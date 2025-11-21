@@ -1,0 +1,44 @@
+@model IEnumerable<AtlasAir.Models.Flight>
+
+@{
+    ViewData["Title"] = "Voos Disponíveis";
+}
+
+<h2>Voos Disponíveis</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nenhum voo disponível no momento.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Partida</th>
+                    <th>Chegada</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var f in Model)
+                {
+                    <tr>
+                        <td>@f.Id</td>
+                        <td>@f.OriginAirport?.Name</td>
+                        <td>@f.DestinationAirport?.Name</td>
+                        <td>@f.ScheduledDeparture.ToString("g")</td>
+                        <td>@f.ScheduledArrival.ToString("g")</td>
+                        <td>
+                            <a asp-action="Seats" asp-route-id="@f.Id" class="btn btn-sm btn-warning">Selecionar assentos</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

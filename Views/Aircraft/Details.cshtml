@@ -1,0 +1,29 @@
+﻿@model AtlasAir.Models.Aircraft
+
+@{
+    ViewData["Title"] = "Detalhes da Aeronave";
+}
+
+<h1>Detalhes da Aeronave</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Modelo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt class="col-sm-2">
+            Número de Assentos
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SeatCount)
+        </dd>
+    </dl>
+</div>
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Editar</a>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar para a Lista</a>
+</div>

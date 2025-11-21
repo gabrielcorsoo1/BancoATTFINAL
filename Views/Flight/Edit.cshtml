@@ -1,0 +1,70 @@
+﻿@model AtlasAir.Models.Flight
+
+@{
+    ViewData["Title"] = "Editar Voo";
+}
+
+<h1>Editar Voo</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="OriginAirportId" class="control-label">Aeroporto de Origem</label>
+                <select asp-for="OriginAirportId" class="form-control" asp-items="ViewBag.OriginAirportId">
+                    <option value="">-- Selecione a origem</option>
+                </select>
+                <span asp-validation-for="OriginAirportId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DestinationAirportId" class="control-label">Aeroporto de Destino</label>
+                <select asp-for="DestinationAirportId" class="form-control" asp-items="ViewBag.DestinationAirportId">
+                    <option value="">-- Selecione a origem</option>
+                </select>
+                <span asp-validation-for="DestinationAirportId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ScheduledDeparture" class="control-label">Partida Agendada</label>
+                <input asp-for="ScheduledDeparture" class="form-control" />
+                <span asp-validation-for="ScheduledDeparture" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ActualDeparture" class="control-label">Partida Real</label>
+                <input asp-for="ActualDeparture" class="form-control" />
+                <span asp-validation-for="ActualDeparture" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ScheduledArrival" class="control-label">Chegada Agendada</label>
+                <input asp-for="ScheduledArrival" class="form-control" />
+                <span asp-validation-for="ScheduledArrival" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ActualArrival" class="control-label">Chegada Real</label>
+                <input asp-for="ActualArrival" class="form-control" />
+                <span asp-validation-for="ActualArrival" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Status" class="control-label">Status</label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.StatusOptions">
+                    <option value="">-- Selecione um status</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 mt-4">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar para a Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,115 @@
+﻿@using AtlasAir.Helpers
+@model AtlasAir.Models.Flight
+
+@{
+    ViewData["Title"] = "Detalhes do Voo";
+}
+
+<h1>Detalhes do Voo</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Partida Agendada
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ScheduledDeparture)
+        </dd>
+
+        <dt class="col-sm-2">
+            Partida Real
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ActualDeparture)
+        </dd>
+
+        <dt class="col-sm-2">
+            Chegada Agendada
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ScheduledArrival)
+        </dd>
+
+        <dt class="col-sm-2">
+            Chegada Real
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ActualArrival)
+        </dd>
+
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Status.GetDisplayName()
+        </dd>
+
+        <dt class="col-sm-2">
+            Origem
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OriginAirport.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            Destino
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DestinationAirport.Name)
+        </dd>
+    </dl>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4>Conexões deste Voo</h4>
+            <a asp-controller="FlightSegment" asp-action="Create" asp-route-flightId="@Model.Id" class="btn btn-sm btn-success">
+                Adicionar Conexão
+            </a>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Ordem</th>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Partida</th>
+                    <th>Chegada</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var segment in Model.FlightSegments.OrderBy(s => s.SegmentOrder))
+                {
+                    <tr>
+                        <td>@segment.SegmentOrder</td>
+                        <td>@segment.OriginAirport.Name</td>
+                        <td>@segment.DestinationAirport.Name</td>
+                        <td>@segment.DepartureTime.ToString("g")</td>
+                        <td>@segment.ArrivalTime.ToString("g")</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="FlightSegment" asp-action="Edit" asp-route-id="@segment.Id" class="btn btn-outline-secondary">Editar</a>
+                                <a asp-controller="FlightSegment" asp-action="Delete" asp-route-id="@segment.Id" class="btn btn-outline-danger">Excluir</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.FlightSegments.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">Nenhuma conexão cadastrada para este voo.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Editar Voo</a>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar para a Lista de Voos</a>
+</div>

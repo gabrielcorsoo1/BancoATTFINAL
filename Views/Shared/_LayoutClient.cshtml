@@ -1,0 +1,81 @@
+@using Microsoft.AspNetCore.Http
+@{
+    Layout = null;
+    var title = ViewData["Title"] ?? "AtlasAir";
+    var session = ViewContext?.HttpContext?.Session;
+    var customerName = session?.GetString("CustomerName");
+}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title - AtlasAir</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/atlasair-theme.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-primary" asp-controller="Client" asp-action="DashboardTest">AtlasAir</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#clientNavbar" aria-controls="clientNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="clientNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Client" asp-action="Search">Buscar Voos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Reservation" asp-action="Index">Minhas Reservas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Client" asp-action="DashboardTest">Minha Conta</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        @if (!string.IsNullOrEmpty(customerName))
+                        {
+                            <span class="me-3 text-muted d-none d-sm-inline">Olá, @customerName</span>
+                        }
+
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-1" viewBox="0 0 16 16" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M6 3a1 1 0 0 0-1 1v2h1V4h7v8H6v-2H5v2a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H6z"/>
+                                    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708L9.172 5.0a.5.5 0 0 0-.707.707L10.293 8l-1.828 2.293a.5.5 0 0 0 .707.707l2.682-2.682z"/>
+                                </svg>
+                                Sair
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container main-container">
+        <main role="main" class="pb-3 content-wrapper">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top bg-primary text-white mt-4 pt-3 pb-3">
+        <div class="container text-center">
+            Banco de Dados Final 2025
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

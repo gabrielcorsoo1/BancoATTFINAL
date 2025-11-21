@@ -1,0 +1,108 @@
+@{
+    Layout = null;
+    var title = ViewData["Title"] ?? "AtlasAir - Autenticação";
+}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/atlasair-theme.css" />
+
+    <style>
+        /* Fundo e cartão de autenticação */
+        body.auth-bg {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #071b2f 0%, #083a5a 45%, #0f6aa0 100%);
+            color: #0a2340;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-wrapper {
+            flex: 1 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 980px;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(2,8,23,0.45);
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(4px);
+        }
+
+        .auth-card-hero { display: none; }
+
+        @@media (min-width: 992px) {
+            .auth-card-hero {
+                display: flex;
+                flex: 0 0 40%;
+                align-items: center;
+                justify-content: center;
+                padding: 40px;
+                background: linear-gradient(180deg, rgba(10,50,90,0.04), rgba(10,50,90,0.01));
+            }
+            .auth-card-body { flex: 1 0 60%; padding: 36px; }
+        }
+
+        .auth-logo { font-weight: 700; font-size: 1.5rem; color: #0a4a82; }
+        .auth-illustration { width: 100%; max-width: 220px; opacity: 0.95; }
+
+        .auth-title { color: #0b3b66; font-weight: 700; margin-bottom: .5rem; font-size: 1.75rem; }
+        .auth-sub { color: #385b78; margin-bottom: 1rem; }
+
+        .btn-warning {
+            background-color: #ffcc00; border-color: #ffcc00; color: #083a5a;
+        }
+
+        .auth-footer-note { margin-top: 1rem; color: #6b8aa0; font-size: .95rem; }
+    </style>
+</head>
+<body class="auth-bg">
+    <div class="auth-wrapper">
+        <main role="main" class="pb-3 content-wrapper">
+            <div class="auth-card">
+                <div class="auth-card-hero">
+                    <div>
+                        <div class="brand mb-4">
+                            <div class="auth-logo">AtlasAir</div>
+                            <div style="color:#0b3b66; font-weight:600; margin-top:8px;">Viagens inteligentes</div>
+                        </div>
+                        <img src="~/images/aviao.png" alt="Avião" class="auth-illustration" />
+                    </div>
+                </div>
+
+                <div class="auth-card-body">
+                    @RenderBody()
+                    <div class="auth-footer-note">
+                        Ao criar uma conta você aceita os termos de uso. (ambiente de testes)
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top bg-transparent text-white mt-4 pt-3 pb-3">
+        <div class="container text-center">
+            <span style="color:rgba(255,255,255,0.85)">Banco de Dados Final 2025</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

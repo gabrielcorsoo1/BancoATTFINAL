@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AtlasAir</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AtlasAir.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-4">
+            <div class="container-fluid">
+                <!-- Marca à esquerda -->
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">AtlasAir</a>
+
+                <!-- Botão toggler -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Itens centralizados -->
+                <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Aircraft" asp-action="Index">Aeronaves</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Airport" asp-action="Index">Aeroportos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Index">Clientes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="FlightSegment" asp-action="Index">Conexões</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Reservation" asp-action="Index">Reservas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Index">Voos</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Relógio global no canto direito (visível a partir de md) -->
+                <div class="d-none d-md-flex align-items-center ms-auto header-clock" role="status" aria-label="Relógio global">
+                    <div class="text-end">
+                        <div class="small text-white fw-semibold">Local <span id="localTime">--:--:--</span></div>
+                        <div class="small text-white-50">UTC <span id="utcTime">--:--:--</span></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container main-container">
+        <main role="main" class="pb-3 content-wrapper">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top bg-primary text-white mt-4 pt-3 pb-3">
+        <div class="container text-center">
+            Banco de Dados Final 2025
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+:root {
+    --dark-blue: #003366;
+    --accent-yellow: #FFCC00;
+    --light-gray: #F5F6F7;
+    --light-blue: #1E90FF;
+    --surface: #ffffff;
+
+    --primary-contrast: #ffffff;
+    --card-shadow: 0 8px 20px rgba(0,0,0,0.06);
+
+    --transition-fast: 120ms;
+    --transition-medium: 260ms;
+}
+
+/* --- Bootstrap override (garante aplicação das cores) --- */
+.bg-primary,
+.navbar.bg-primary,
+.navbar.bg-primary .navbar-brand,
+.navbar.bg-primary .nav-link,
+footer.bg-primary {
+    background-color: var(--dark-blue) !important;
+    color: var(--primary-contrast) !important;
+}
+
+/* Força cor dos links na navbar */
+.navbar .nav-link {
+    color: rgba(255,255,255,0.95) !important;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: #ffffff !important;
+}
+
+/* Botões primários (ação) -> amarelo */
+.btn-primary, .btn-action-primary {
+    background-color: var(--accent-yellow) !important;
+    color: #111 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.btn-primary:hover, .btn-action-primary:hover {
+    background-color: #e6b700 !important;
+}
+
+/* Botões padrão / links -> azul claro */
+.btn-outline-primary, .btn-default, .btn-secondary,
+a, .link {
+    color: var(--light-blue) !important;
+}
+a:hover, .link:hover {
+    color: #187de6 !important;
+}
+
+/* Inputs foco */
+.form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem rgba(30,144,255,0.12), 0 0 0 0.25rem rgba(30,144,255,0.08) !important;
+    border-color: var(--light-blue) !important;
+}
+
+/* Cards e superfície */
+body { background-color: var(--light-gray); color: #212529; }
+.content-wrapper { background-color: var(--surface); border-radius: 8px; padding: 2rem; box-shadow: var(--card-shadow); }
+.card, .panel, .card-body { background-color: var(--light-gray); border: none; border-radius: 8px; }
+
+/* Títulos */
+h1, h2, h3, .page-title { color: var(--dark-blue); font-weight: 600; }
+
+/* Navbar underline animado */
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    bottom: -6px;
+    width: 60%;
+    height: 2px;
+    background-color: var(--accent-yellow);
+    transform-origin: center;
+    transition: transform var(--transition-fast) ease;
+}
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Alert timer bar */
+.alert-timer-bar { position: absolute; bottom: 0; left: 0; height: 5px; background-color: rgba(0,0,0,0.12); width: 100%; animation: timer-bar-slide 3s linear forwards; }
+@keyframes timer-bar-slide { from { width: 100%; } to { width: 0%; } }
+#autoCloseAlert:hover .alert-timer-bar { animation-play-state: paused; }
+
+/* Tabelas hover */
+.table-hover tbody tr:hover { background-color: rgba(30,144,255,0.04); transform: translateY(-2px); }
+
+/* Hero */
+.hero { background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 46vh; display: flex; align-items: center; color: #ffffff; position: relative; border-radius: 8px; overflow: hidden; padding: 3.5rem 0; }
+.hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.25)); z-index: 0; }
+.hero .container-fluid, .hero h1, .hero p { position: relative; z-index: 1; }
+
+/* Nuvens */
+.sky { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 0; }
+.cloud { position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; background: rgba(255,255,255,0.8); border-radius: 50%; opacity: 0.9; animation: cloud-move 20s linear infinite; }
+.cloud-1 { transform: translate(-50%,-50%) scale(1); animation-delay: 0s; }
+.cloud-2 { transform: translate(-50%,-50%) scale(0.8); animation-delay: -5s; }
+.cloud-3 { transform: translate(-50%,-50%) scale(1.2); animation-delay: -10s; }
+.cloud-4 { transform: translate(-50%,-50%) scale(0.9); animation-delay: -15s; }
+@keyframes cloud-move { 0% { transform: translate(-50%,-50%) translateX(-100%); } 100% { transform: translate(-50%,-50%) translateX(100%); } }
+
+/* Preferência por reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+    :root { --transition-fast: 0ms; --transition-medium: 0ms; }
+    * { animation-duration: 0ms !important; transition-duration: 0ms !important; }
+}

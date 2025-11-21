@@ -1,0 +1,211 @@
+﻿@model AtlasAir.ViewModels.ReservationViewModel
+
+@{
+    ViewData["Title"] = "Adicionar Reserva";
+}
+
+<h1>Adicionar Reserva</h1>
+<hr />
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row g-3 border-bottom pb-3 mb-3">
+        <h4 class="mb-3">1. Buscar Voos Disponíveis</h4>
+
+        <div class="col-md-5">
+            <label asp-for="SelectedOriginAirportId" class="form-label"></label>
+            <select asp-for="SelectedOriginAirportId" class="form-select" asp-items="Model.AirportList">
+                <option value="">-- Selecione a origem</option>
+            </select>
+        </div>
+
+        <div class="col-md-5">
+            <label asp-for="SelectedDestinationAirportId" class="form-label"></label>
+            <select asp-for="SelectedDestinationAirportId" class="form-select" asp-items="Model.AirportList">
+                <option value="">-- Selecione o destino</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button id="btnBuscarVoos" type="button" class="btn btn-secondary w-100">
+                <span id="btnBuscarText">Buscar</span>
+                <span id="btnBuscarSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+
+    <div id="flightResultsContainer" class="mb-3" style="display:none;">
+        <h4 class="mb-3">2. Selecionar Voo</h4>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nº Voo</th>
+                        <th>Partida</th>
+                        <th>Chegada</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="flightResultsTableBody">
+                </tbody>
+            </table>
+        </div>
+        <span id="flightSearchError" class="text-danger"></span>
+    </div>
+
+    <div id="reservationDetailsContainer" class="row g-3" style="display:none;">
+        <h4 class="mb-3">3. Finalizar Reserva</h4>
+
+        <input type="hidden" asp-for="SelectedFlightId" />
+
+        <div class="col-md-6">
+            <label asp-for="ReservationCode" class="form-label"></label>
+            <input asp-for="ReservationCode" class="form-control" />
+            <span asp-validation-for="ReservationCode" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="SelectedCustomerId" class="form-label"></label>
+            <select asp-for="SelectedCustomerId" class="form-select" asp-items="Model.CustomerList">
+                <option value="">Selecione um cliente</option>
+            </select>
+            <span asp-validation-for="SelectedCustomerId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="SelectedSeatId" class="form-label"></label>
+            <select asp-for="SelectedSeatId" class="form-select" disabled>
+                <option value="">Selecione um voo primeiro</option>
+            </select>
+            <span asp-validation-for="SelectedSeatId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 mt-4">
+        <input id="btnSalvarReserva" type="submit" value="Salvar Reserva" class="btn btn-primary" disabled />
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var originSelect = $("#SelectedOriginAirportId");
+            var destSelect = $("#SelectedDestinationAirportId");
+            var btnBuscar = $("#btnBuscarVoos");
+            var btnBuscarText = $("#btnBuscarText");
+            var btnBuscarSpinner = $("#btnBuscarSpinner");
+
+            var resultsContainer = $("#flightResultsContainer");
+            var resultsTableBody = $("#flightResultsTableBody");
+            var searchError = $("#flightSearchError");
+
+            var detailsContainer = $("#reservationDetailsContainer");
+            var hiddenFlightId = $("#SelectedFlightId");
+            var seatSelect = $("#SelectedSeatId");
+            var btnSalvar = $("#btnSalvarReserva");
+
+            btnBuscar.on("click", function() {
+                var originId = originSelect.val();
+                var destinationId = destSelect.val();
+
+                if (!originId || !destinationId) {
+                    searchError.text("Selecione uma origem e um destino.");
+                    return;
+                }
+
+                btnBuscarText.addClass("d-none");
+                btnBuscarSpinner.removeClass("d-none");
+                resultsContainer.slideUp();
+                resultsTableBody.empty();
+                searchError.empty();
+
+                $.ajax({
+                    url: "@Url.Action("GetAvailableFlights")",
+                    type: "GET",
+                    data: { originId: originId, destinationId: destinationId },
+                    success: function(flights) {
+                        if (flights && flights.length > 0) {
+                            flights.forEach(function(flight) {
+                                var departure = new Date(flight.scheduledDeparture).toLocaleString();
+                                var arrival = new Date(flight.scheduledArrival).toLocaleString();
+                                var row = `<tr>
+                                            <td>${flight.flightNumber}</td>
+                                            <td>${departure}</td>
+                                            <td>${arrival}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary btn-select-flight"
+                                                        data-flightid="${flight.flightId}">
+                                                    Selecionar
+                                                </button>
+                                            </td>
+                                       </tr>`;
+                                resultsTableBody.append(row);
+                            });
+                            resultsContainer.slideDown();
+                            detailsContainer.slideDown();
+                        } else {
+                            searchError.text("Nenhum voo encontrado para esta rota.");
+                        }
+                    },
+                    error: function() {
+                        searchError.text("Erro ao buscar voos.");
+                    },
+                    complete: function() {
+                        btnBuscarText.removeClass("d-none");
+                        btnBuscarSpinner.addClass("d-none");
+                    }
+                });
+            });
+
+            resultsTableBody.on("click", ".btn-select-flight", function() {
+                var selectedFlightId = $(this).data("flightid");
+
+                hiddenFlightId.val(selectedFlightId);
+
+                $(this).closest("tbody").find("tr").removeClass("table-active");
+                $(this).closest("tr").addClass("table-active");
+
+                seatSelect.empty().append('<option>Buscando assentos...</option>').prop("disabled", true);
+                btnSalvar.prop("disabled", true);
+
+                $.ajax({
+                    url: "@Url.Action("GetAvailableSeats")",
+                    type: "GET",
+                    data: { flightId: selectedFlightId },
+                    success: function(seats) {
+                        seatSelect.empty();
+
+                        if (seats && seats.length > 0) {
+                            seatSelect.append('<option value="">Selecione um assento</option>');
+                            seats.forEach(function(seat) {
+                                seatSelect.append(`<option value="${seat.id}">${seat.seatNumber}</option>`);
+                            });
+                        } else {
+                            seatSelect.append('<option value="">Nenhum assento disponível</option>');
+                        }
+
+                        seatSelect.prop("disabled", false);
+                    },
+                    error: function() {
+                        seatSelect.empty();
+                        seatSelect.append('<option value="">Erro ao buscar assentos</option>');
+                        seatSelect.prop("disabled", false);
+                    }
+                });
+            });
+
+            seatSelect.on("change", function() {
+                if ($(this).val()) {
+                    btnSalvar.prop("disabled", false);
+                } else {
+                    btnSalvar.prop("disabled", true);
+                }
+            });
+        });
+    </script>
+}

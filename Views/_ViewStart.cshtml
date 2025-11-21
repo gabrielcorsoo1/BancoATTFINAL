@@ -1,0 +1,10 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    // pega a sessão de forma segura
+    var session = Context?.Session;
+    var isLogged = (session?.GetInt32("CustomerId").HasValue) ?? false;
+    var isAdmin = (session?.GetString("IsAdmin") == "1");
+
+    // usa layout cliente quando estiver logado e NÃO for admin
+    Layout = (isLogged && !isAdmin) ? "~/Views/Shared/_LayoutClient.cshtml" : "~/Views/Shared/_Layout.cshtml";
+}

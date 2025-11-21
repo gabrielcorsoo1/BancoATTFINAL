@@ -1,0 +1,60 @@
+﻿@model AtlasAir.Models.Reservation
+
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+<h1>Editar Reserva</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="ReservationCode" class="control-label">Código da reserva</label>
+                <input asp-for="ReservationCode" class="form-control" />
+                <span asp-validation-for="ReservationCode" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CustomerId" class="control-label">Cliente</label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId">
+                    <option value="">-- Selecione um cliente --</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="SeatId" class="control-label">Assento</label>
+                <select asp-for="SeatId" class="form-control" asp-items="ViewBag.SeatId">
+                    <option value="">-- Selecione um assento --</option>
+                </select>
+                <span asp-validation-for="SeatId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FlightId" class="control-label">Voo</label>
+                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId">
+                    <option value="">-- Selecione um voo --</option>
+                </select>
+                <span asp-validation-for="FlightId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Status" class="control-label">Status da reserva</label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.StatusOptions"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 mt-4">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

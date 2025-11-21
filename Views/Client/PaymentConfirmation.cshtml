@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Sua reserva está quase pronta";
+    var code = ViewBag.ReservationCode as string ?? "";
+}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center p-5">
+          <div class="mb-4">
+            <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="#ffc107" stroke-width="1.5"/>
+              <path d="M7 13l3 3 7-8" stroke="#ffc107" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <h1 class="h3 mb-2">Sua reserva está quase pronta</h1>
+          <p class="text-muted mb-3">Revise os dados e finalize o pagamento para confirmar sua reserva.</p>
+
+          <p class="mb-3">
+            <strong>Código provisório:</strong>
+            <span class="badge bg-warning text-dark ms-2">@code</span>
+          </p>
+
+          <div class="d-flex justify-content-center gap-2 mt-4">
+            <a href="@Url.Action("Seats", "Client", new { id = (ViewData["Flight"] as dynamic)?.Id })" class="btn btn-outline-secondary">Voltar</a>
+            <a href="@Url.Action("PaymentPage", "Client", new { code = code })" class="btn btn-success">Pagar</a>
+          </div>
+
+          @if (TempData["SuccessMessage"] != null)
+          {
+              <div class="mt-4 text-success small">@TempData["SuccessMessage"]</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

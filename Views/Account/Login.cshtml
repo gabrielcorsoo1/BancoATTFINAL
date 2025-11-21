@@ -1,0 +1,25 @@
+@model AtlasAir.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+}
+
+<form asp-action="Login" method="post" class="bg-white p-4 rounded shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="UserIdentifier" class="form-label">Email ou Telefone</label>
+        <input asp-for="UserIdentifier" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" class="form-control" type="password" />
+    </div>
+
+    <button type="submit" class="btn btn-warning">Entrar</button>
+    <a asp-controller="Account" asp-action="Register" class="btn btn-link">Registrar</a>
+</form>

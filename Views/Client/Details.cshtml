@@ -1,0 +1,41 @@
+@model AtlasAir.Models.Flight
+
+@{
+    ViewData["Title"] = "Detalhes do Voo";
+    var seats = ViewData["AvailableSeats"] as IEnumerable<AtlasAir.Models.Seat> ?? Enumerable.Empty<AtlasAir.Models.Seat>();
+}
+
+<h2>Voo @Model.Id</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Origem</dt><dd class="col-sm-10">@Model.OriginAirport?.Name</dd>
+    <dt class="col-sm-2">Destino</dt><dd class="col-sm-10">@Model.DestinationAirport?.Name</dd>
+    <dt class="col-sm-2">Partida</dt><dd class="col-sm-10">@Model.ScheduledDeparture.ToString("g")</dd>
+    <dt class="col-sm-2">Chegada</dt><dd class="col-sm-10">@Model.ScheduledArrival.ToString("g")</dd>
+</dl>
+
+<h4>Assentos Disponíveis</h4>
+
+@if (!seats.Any())
+{
+    <p>Nenhum assento disponível.</p>
+}
+else
+{
+    <form asp-action="Purchase" method="post">
+        <input type="hidden" name="flightId" value="@Model.Id" />
+        <div class="row g-2">
+            @foreach (var s in seats)
+            {
+                <div class="col-auto">
+                    <div class="card p-2">
+                        <div>@s.SeatNumber (@s.Class)</div>
+                        <div class="mt-2">
+                            <button type="submit" name="seatId" value="@s.Id" class="btn btn-sm btn-success">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </form>
+}

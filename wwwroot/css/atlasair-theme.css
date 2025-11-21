@@ -1,0 +1,258 @@
+:root{
+  --dark:#003366;      /* Azul escuro */
+  --yellow:#FFCC00;    /* Amarelo primário */
+  --light-bg:#F5F6F7;  /* Fundo geral / cards */
+  --light-blue:#1E90FF;/* Azul claro */
+  --muted:#33373a;
+  --radius:10px;
+  --transition:180ms ease;
+  --footer-height:64px;
+
+  /* tabelas */
+  --table-row-bg: rgba(30,144,255,0.04);
+  --table-border: rgba(30,144,255,0.18);
+  --table-header-bg: rgba(30,144,255,0.06);
+
+  /* cards */
+  --card-bg: #ffffff;
+  --card-border: rgba(0,0,0,0.06);
+  --card-shadow: 0 6px 20px rgba(2,6,23,0.06);
+  --card-hover-shadow: 0 18px 40px rgba(2,6,23,0.10);
+}
+
+/* Reset básico */
+html,body{
+  height:100%;
+  background:var(--light-bg);
+  color:var(--muted);
+  font-family:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+  margin:0;
+  padding:0;
+}
+
+/* === HEADER / NAVBAR: garantir cor desejada === */
+header, .navbar, .site-navbar, .navbar.bg-primary, .navbar.bg-primary.box-shadow {
+  background:var(--dark) !important;
+  color:#fff !important;
+  box-shadow:0 1px 0 rgba(0,0,0,0.06);
+}
+
+/* Marca e links no header */
+.navbar .navbar-brand, .site-navbar .navbar-brand {
+  color:var(--yellow) !important;
+  font-weight:700;
+}
+.navbar .nav-link, .site-navbar .nav-link {
+  color:#ffffff !important;
+  transition: color var(--transition);
+}
+.navbar .nav-link:hover, .site-navbar .nav-link:hover,
+.navbar .nav-link:focus, .site-navbar .nav-link:focus {
+  color:var(--yellow) !important;
+  text-decoration:none;
+}
+
+/* Toggler icon visibility */
+.navbar-toggler { border-color: rgba(255,255,255,0.12) !important; }
+.navbar-toggler-icon { filter: invert(1) !important; }
+
+/* Forçar bg-primary para sua cor (caso use a classe Bootstrap) */
+.bg-primary { background:var(--dark) !important; color:#fff !important; }
+
+/* === FOOTER: não fixo; está no fluxo normal da página === */
+footer,
+footer.site-footer,
+.site-footer,
+footer.border-top,
+footer.bg-primary,
+footer.text-white {
+  background-color: var(--dark) !important;
+  color: #fff !important;
+  border-top: 0 !important;
+  height: var(--footer-height);
+  padding: 0 1rem;
+  position: static; /* NÃO fixo: footer fica no final do conteúdo */
+  left: auto;
+  right: auto;
+  bottom: auto;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -1px 8px rgba(0,0,0,0.08);
+}
+
+/* Links do footer */
+footer a, .site-footer a {
+  color: var(--light-bg) !important;
+}
+footer a:hover, .site-footer a:hover {
+  color: var(--yellow) !important;
+}
+
+/* HERO / JUMBOTRON */
+.hero, .jumbotron, .banner {
+  background: #ffffff;
+  border-radius:var(--radius);
+  padding:2.25rem;
+  margin:1.25rem 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+  color:var(--dark);
+}
+.hero .container-fluid {
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  padding-top:2.5rem;
+  padding-bottom:2.5rem;
+}
+.hero-content {
+  flex:1 1 60%;
+  min-width:0;
+}
+.hero-media {
+  flex:0 0 320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-left:0.5rem;
+}
+.hero-image {
+  width:100%;
+  max-width:320px;
+  height:auto;
+  border-radius:10px;
+  box-shadow:0 8px 24px rgba(2,6,23,0.12);
+  object-fit:cover;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* fallback: empilha em telas pequenas */
+@media (max-width:768px) {
+  .hero .container-fluid {
+    flex-direction:column;
+    text-align:center;
+  }
+  .hero-content { width:100%; padding-bottom:0.75rem; }
+  .hero-media { width:100%; padding-left:0; }
+  .hero-image { max-width:420px; width:80%; }
+}
+
+/* CARDS / PAINÉIS (cores restauradas e padding garantido) */
+/* Grid helper (use nas Views quando quiser) */
+.cards-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; align-items:start; }
+@media (max-width:1100px){ .cards-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:700px){ .cards-grid{ grid-template-columns:1fr; } }
+
+/* Estilo base do card — FORÇAR background e padding para sobrescrever Bootstrap */
+.card, .panel, .section-card{
+  background:var(--card-bg) !important;
+  border:1px solid var(--card-border) !important;
+  border-radius:var(--radius);
+  padding:0; /* reset; usamos .card-body para padding consistente */
+  box-shadow:var(--card-shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:160px;
+}
+
+/* barra de destaque lateral */
+.card::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:6px;
+  background: linear-gradient(180deg, rgba(30,144,255,0.9), rgba(0,51,102,0.6));
+  border-top-left-radius:var(--radius);
+  border-bottom-left-radius:var(--radius);
+  opacity:0.95;
+}
+
+/* Conteúdo interno com padding (garante que não fique sem espaçamento) */
+.card > .card-body, .panel > .card-body, .section-card > .card-body {
+  padding:1.25rem;
+  padding-left:1.0rem; /* espaço extra para compensar a barra lateral */
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  flex:1 1 auto;
+}
+
+/* Manter títulos e texto com cores do tema */
+.card-title, .section-title { margin:0; color:var(--dark); font-size:1.15rem; font-weight:700; }
+.card-text { color:rgba(0,0,0,0.72); line-height:1.5; margin-bottom:0.5rem; flex:1 1 auto; }
+
+/* Rodapé do card para botões */
+.card-footer { display:flex; gap:0.6rem; align-items:center; justify-content:flex-start; margin-top:0.6rem; }
+
+/* hover: elevação */
+.card:hover { transform:translateY(-8px); box-shadow:0 18px 40px rgba(2,6,23,0.10); }
+
+/* Botões dentro do card */
+.card .btn-action, .card .btn-primary {
+  padding:0.5rem 0.9rem; border-radius:8px; font-weight:600;
+}
+
+/* Garante que cards Bootstrap antigos que removiam padding não quebrem */
+.card .card-body, .panel .card-body { /* asseguro padding: */ padding:1.25rem !important; }
+
+/* TÍTULOS GERAIS */
+h1, h2, h3, .section-title { color:var(--dark); }
+
+/* BOTÕES */
+.btn-primary, .btn-action {
+  background:var(--yellow) !important;
+  color:var(--dark) !important;
+  border:1px solid rgba(0,0,0,0.06) !important;
+  transition: transform var(--transition), filter var(--transition);
+}
+.btn-primary:hover, .btn-action:hover { filter:brightness(0.95); transform:translateY(-1px); }
+
+/* Links e inputs (mantém tema) */
+a, .link { color:var(--light-blue); text-decoration:none; }
+a:hover, .link:hover { color:var(--dark); text-decoration:underline; }
+input, textarea, select, .form-control {
+  border:1px solid rgba(0,0,0,0.12);
+  padding:0.55rem;
+  border-radius:6px;
+  transition:box-shadow var(--transition), border-color var(--transition);
+  background:#fff;
+}
+input:focus, textarea:focus, select:focus, .form-control:focus {
+  outline:none; border-color:var(--light-blue) !important;
+  box-shadow:0 0 0 6px rgba(30,144,255,0.10);
+}
+
+/* TABELAS (mantido) */
+table, .table { width:100%; color:var(--muted); border-collapse:collapse; }
+.table thead th { background: var(--table-header-bg) !important; color:var(--dark) !important; border-bottom:2px solid var(--table-border) !important; padding:0.9rem 1rem !important; text-align:left; }
+.table td, .table th { padding:0.85rem 1rem; border-bottom:1px solid var(--table-border) !important; }
+.table-striped tbody tr:nth-of-type(odd) { background: var(--table-row-bg) !important; }
+
+/* Helpers */
+.container-narrow { max-width:1100px; margin:0 auto; padding:0 1rem; }
+.small-muted { color:rgba(0,0,0,0.55); }
+
+/* --- adição: tornar footer fixo apenas quando body tiver a classe client-fixed-footer --- */
+
+/* mantém comportamento atual como padrão (não fixo) */
+/* ... (preserve seu CSS existente acima) ... */
+
+/* regras aplicadas somente para páginas cliente */
+.client-fixed-footer footer,
+.client-fixed-footer .site-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  box-shadow: 0 -1px 8px rgba(0,0,0,0.08);
+}
+
+/* evita que conteúdo fique coberto quando footer estiver fixo */
+.client-fixed-footer {
+  padding-bottom: calc(var(--footer-height, 64px) + 1rem);
+}

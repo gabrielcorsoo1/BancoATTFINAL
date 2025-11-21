@@ -1,0 +1,83 @@
+﻿@model AtlasAir.ViewModels.HomeIndexViewModel
+
+@{
+    ViewData["Title"] = "Página Inicial";
+}
+
+<div class="hero">
+    <div class="container-fluid py-5">
+        <div class="hero-content">
+            <h1 class="display-5 fw-bold">Bem-vindo ao AtlasAir</h1>
+            <p class="col-md-8 fs-4">Este é o seu painel de gerenciamento de tráfego aéreo.</p>
+            <p>Utilize os cartões abaixo para navegar rapidamente para as principais seções do sistema.</p>
+        </div>
+
+        <div class="hero-media">
+            <img src="~/images/aviao.png" alt="Avião" class="hero-image img-fluid" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Aeronaves</h5>
+                <p class="card-text">Gerenciar a frota de aeronaves disponíveis.</p>
+                <a asp-controller="Aircraft" asp-action="Index" class="btn btn-primary btn-action">Gerenciar Aeronaves</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Aeroportos</h5>
+                <p class="card-text">Adicionar, editar ou remover aeroportos da base de dados.</p>
+                <a asp-controller="Airport" asp-action="Index" class="btn btn-primary btn-action">Gerenciar Aeroportos</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Visualizar e gerenciar a lista de clientes cadastrados.</p>
+                <a asp-controller="Customer" asp-action="Index" class="btn btn-primary btn-action">Gerenciar Clientes</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Conexões</h5>
+                <p class="card-text">Visualizar e gerenciar a lista de conexões.</p>
+                <a asp-controller="FlightSegment" asp-action="Index" class="btn btn-primary btn-action">Gerenciar Conexões</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Reservas</h5>
+                <p class="card-text">Administrar todas as reservas de voos e assentos.</p>
+                <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-action">Gerenciar Reservas</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Voos</h5>
+                <p class="card-text">Gerenciar partidas, chegadas e status dos voos.</p>
+                <a asp-controller="Flight" asp-action="Index" class="btn btn-primary btn-action">Gerenciar Voos</a>
+            </div>
+        </div>
+    </div>
+
+</div>
