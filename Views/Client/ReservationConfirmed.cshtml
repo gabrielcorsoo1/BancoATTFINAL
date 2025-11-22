@@ -17,7 +17,8 @@
                     }
 
                     <div class="mt-4">
-                        <a asp-controller="Client" asp-action="Search" class="btn btn-outline-secondary">Voltar à busca</a>
+                        <!-- Voltar para uma rota segura em vez de usar history.back() -->
+                        <a asp-controller="Client" asp-action="Index" class="btn btn-secondary">Voltar</a>
                         <a asp-controller="Reservation" asp-action="Index" class="btn btn-warning ms-2">Minhas Reservas</a>
                     </div>
                 </div>

@@ -97,6 +97,7 @@ namespace AtlasAir.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAvailableSeats(int flightId)
         {
+            // Garante que nunca passamos null para Enumerable.Select
             var seats = await _seat_repository.GetAvailableSeatsByFlightIdAsync(flightId) ?? new List<Seat>();
             var seatList = seats.Select(s => new { s.Id, s.SeatNumber });
             return Json(seatList);

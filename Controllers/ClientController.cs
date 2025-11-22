@@ -103,12 +103,18 @@ namespace AtlasAir.Controllers
 
         // Página que mostra assentos de um voo e permite selecionar
         [HttpGet]
-        public async Task<IActionResult> Seats(int id)
+        public async Task<IActionResult> Seats(int? id)
         {
-            var flight = await _flightRepository.GetByIdAsync(id);
+            // Se não recebeu id válido, redireciona para a busca (evita 404 quando /Client/Seats é acessado sem id)
+            if (!id.HasValue || id.Value <= 0)
+            {
+                return RedirectToAction(nameof(Search));
+            }
+
+            var flight = await _flightRepository.GetByIdAsync(id.Value);
             if (flight == null) return NotFound();
 
-            var seats = await _seatRepository.GetAvailableSeatsByFlightIdAsync(id) ?? Enumerable.Empty<Seat>();
+            var seats = await _seatRepository.GetAvailableSeatsByFlightIdAsync(id.Value) ?? Enumerable.Empty<Seat>();
 
             ViewData["Flight"] = flight;
             return View(seats);
