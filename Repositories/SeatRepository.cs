@@ -36,7 +36,6 @@ namespace AtlasAir.Repositories
 
         public async Task<List<Seat>?> GetAvailableSeatsByFlightIdAsync(int flightId)
         {
-            // 1) obter os AircraftId associados ao voo (via FlightSegment)
             var aircraftIds = await _context.FlightSegments
                 .Where(fs => fs.FlightId == flightId)
                 .Select(fs => fs.AircraftId)
@@ -45,13 +44,9 @@ namespace AtlasAir.Repositories
 
             if (aircraftIds == null || !aircraftIds.Any())
             {
-                // fallback: se não houver segmentos, tenta devolver lista vazia (comportamento anterior mantido)
-                // Se quiser, aqui podemos tentar outras heurísticas (ex.: procurar AircraftId direto no Flight)
                 return new List<Seat>();
             }
 
-            // 2) buscar assentos desses aircrafts que NÃO estejam reservados para esse voo
-            //    IMPORTANTE: ignorar reservas canceladas para que assentos liberados por cancelamento voltem a aparecer
             var reservedSeatIds = await _context.Reservations
                 .Where(r => r.FlightId == flightId && r.Status != AtlasAir.Enums.ReservationStatus.Cancelled)
                 .Select(r => r.SeatId)

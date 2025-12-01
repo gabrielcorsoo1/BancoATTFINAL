@@ -39,7 +39,7 @@ else
             <input type="hidden" id="selectedSeat" name="seatId" />
             <button type="submit" class="btn btn-primary" id="btnBuy" disabled>Comprar</button>
 
-            <!-- Botão de reserva rápida -->
+           
             <form id="quickReserveForm" method="post" style="display:inline;">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="flightId" value="@flight?.Id" />
@@ -55,7 +55,7 @@ else
 
 @section Scripts {
     <script>
-        // seleção manual
+        
         document.querySelectorAll('.select-seat').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 document.querySelectorAll('.select-seat').forEach(b => b.classList.remove('btn-success'));
@@ -74,7 +74,7 @@ else
             if (!seatId) { e.preventDefault(); alert('Selecione um assento.'); }
         });
 
-        // reservar rápido (servidor escolhe assento aleatório entre disponíveis)
+        
         (function () {
             var btn = document.getElementById('btnQuickReserve');
             if (!btn) return;
@@ -83,7 +83,7 @@ else
                 var form = document.getElementById('quickReserveForm');
                 var fd = new FormData(form);
 
-                // extrai token antiforgery do form
+                
                 var token = form.querySelector('input[name="__RequestVerificationToken"]')?.value;
 
                 fetch('@Url.Action("QuickReserve", "Client")', {
@@ -104,7 +104,7 @@ else
                         return;
                     }
 
-                    // mostra sucesso e cria botão de cancelar reservado
+                  
                     var container = document.getElementById('quickActionContainer');
                     container.innerHTML = '';
 
@@ -120,12 +120,12 @@ else
                     cancelBtn.dataset.reservationId = data.reservationId;
                     container.appendChild(cancelBtn);
 
-                    // desabilita seleção e compra direta
+                    
                     btn.disabled = true;
                     document.getElementById('btnBuy').disabled = true;
                     document.querySelectorAll('.select-seat').forEach(b => b.disabled = true);
 
-                    // cancelar reserva via AJAX
+                    
                     cancelBtn.addEventListener('click', function () {
                         var reservationId = this.dataset.reservationId;
                         var formData = new FormData();
@@ -145,7 +145,7 @@ else
                                 return;
                             }
 
-                            // atualiza UI
+                            
                             container.innerHTML = '<div class="alert alert-info">Reserva cancelada com sucesso.</div>';
                             cancelBtn.disabled = true;
                         })

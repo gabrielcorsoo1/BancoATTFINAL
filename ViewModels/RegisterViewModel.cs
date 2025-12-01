@@ -26,7 +26,7 @@ namespace AtlasAir.ViewModels
         [Display(Name = "Confirmar Senha")]
         public string ConfirmPassword { get; set; } = string.Empty;
 
-        // apenas para testes locais
+        
         public bool IsAdmin { get; set; } = false;
     }
 }

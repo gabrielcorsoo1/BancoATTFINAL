@@ -39,7 +39,7 @@ namespace AtlasAir.Controllers
                 Phone = vm.Phone,
                 Email = vm.Email ?? string.Empty,
                 PasswordHash = PasswordHasher.Hash(vm.Password),
-                IsAdmin = vm.IsAdmin // agora usamos o valor do viewmodel
+                IsAdmin = vm.IsAdmin 
             };
 
             await _customerRepository.CreateAsync(customer);
@@ -49,18 +49,18 @@ namespace AtlasAir.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (TempData["SuccessMessage"] != null)
-                ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
+                ViewBag.SuccessMessage = TempData["SuccessMessage"]?.ToString();
 
             return View(new LoginViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel vm, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel vm, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (!ModelState.IsValid) return View(vm);

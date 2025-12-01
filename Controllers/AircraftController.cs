@@ -1,11 +1,13 @@
 ﻿using AtlasAir.Enums;
 using AtlasAir.Interfaces;
 using AtlasAir.Models;
+using AtlasAir.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AtlasAir.Controllers
 {
+    [AdminOnly]
     public class AircraftController : Controller
     {
         private readonly IAircraftRepository _aircraftRepository;

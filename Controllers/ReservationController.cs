@@ -47,7 +47,7 @@ namespace AtlasAir.Controllers
                 return View(mine);
             }
 
-            // sem sessão (visitante) — mantém comportamento anterior: listar todas
+          
             return View(await _reservationRepository.GetAllAsync());
         }
 
@@ -71,9 +71,7 @@ namespace AtlasAir.Controllers
             return View(viewModel);
         }
 
-        /// <summary>
-        /// Ação chamada pelo JavaScript para buscar voos com base na origem e destino.
-        /// </summary>
+        
         [HttpGet]
         public async Task<IActionResult> GetAvailableFlights(int originId, int destinationId)
         {
@@ -91,13 +89,10 @@ namespace AtlasAir.Controllers
             return Json(availableFlights);
         }
 
-        /// <summary>
-        /// Ação chamada pelo JavaScript para buscar assentos de um voo específico.
-        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAvailableSeats(int flightId)
         {
-            // Garante que nunca passamos null para Enumerable.Select
+           
             var seats = await _seat_repository.GetAvailableSeatsByFlightIdAsync(flightId) ?? new List<Seat>();
             var seatList = seats.Select(s => new { s.Id, s.SeatNumber });
             return Json(seatList);

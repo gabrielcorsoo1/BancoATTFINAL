@@ -67,10 +67,24 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OriginAirport.Name)
+                    @if (item.OriginAirport != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.OriginAirport.Name)
+                    }
+                    else
+                    {
+                        <span class="text-muted">N/A</span>
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DestinationAirport.Name)
+                    @if (item.DestinationAirport != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.DestinationAirport.Name)
+                    }
+                    else
+                    {
+                        <span class="text-muted">N/A</span>
+                    }
                 </td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">

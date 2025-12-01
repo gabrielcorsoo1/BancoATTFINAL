@@ -78,11 +78,10 @@ namespace AtlasAir.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Verifica relacionamentos antes de tentar excluir
-            var flights = await _flightRepository.GetAllAsync();
+            var flights = await _flightRepository.GetAllAsync() ?? Enumerable.Empty<Flight>();
             var hasFlight = flights.Any(f => f.OriginAirportId == id || f.DestinationAirportId == id);
 
-            var segments = await _flightSegmentRepository.GetAllAsync();
+            var segments = await _flightSegmentRepository.GetAllAsync() ?? Enumerable.Empty<FlightSegment>();
             var hasSegment = segments.Any(s => s.OriginAirportId == id || s.DestinationAirportId == id);
 
             if (hasFlight || hasSegment)

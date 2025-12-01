@@ -4,10 +4,10 @@
 
 namespace AtlasAir.Migrations
 {
-    /// <inheritdoc />
+    
     public partial class Enums : Migration
     {
-        /// <inheritdoc />
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
@@ -35,7 +35,7 @@ namespace AtlasAir.Migrations
                 oldType: "int");
         }
 
-        /// <inheritdoc />
+      
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(

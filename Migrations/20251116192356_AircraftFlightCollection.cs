@@ -4,10 +4,10 @@
 
 namespace AtlasAir.Migrations
 {
-    /// <inheritdoc />
+    
     public partial class AircraftFlightCollection : Migration
     {
-        /// <inheritdoc />
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(

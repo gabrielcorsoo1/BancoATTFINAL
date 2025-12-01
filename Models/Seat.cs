@@ -17,7 +17,7 @@ namespace AtlasAir.Models
         public Aircraft Aircraft { get; set; } = null!;
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
-        // Não mapeado para o banco para evitar erro 'Invalid column name RowVersion'
+        
         [NotMapped]
         public byte[]? RowVersion { get; set; }
     }

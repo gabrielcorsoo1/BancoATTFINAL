@@ -8,7 +8,7 @@ namespace AtlasAir.ViewModels
         public int SeatId { get; set; }
         public Flight? Flight { get; set; }
         public Seat? Seat { get; set; }
-        public decimal Price { get; set; } = 199.90m; // valor de teste
+        public decimal Price { get; set; } = 199.90m; 
     }
 
     public class PaymentFormModel

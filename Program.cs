@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Usando Controllers + Views (projeto tem Views)
+
 builder.Services.AddControllersWithViews();
 
-// Habilita sessão para guardar info do usuário
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -17,7 +17,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Registrar repositórios (injeção de dependência)
+
 builder.Services.AddScoped<IAircraftRepository, AircraftRepository>();
 builder.Services.AddScoped<IAirportRepository, AirportRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -26,7 +26,7 @@ builder.Services.AddScoped<IFlightSegmentRepository, FlightSegmentRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();
 
-// DbContext com connection string
+
 builder.Services.AddDbContext<AtlasAirDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );

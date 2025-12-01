@@ -1,0 +1,89 @@
+﻿
+body.welcome-page header { display: none !important; }
+body.welcome-page footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    border-top: none;
+}
+body.welcome-page .main-container { padding-top: 2.5rem; padding-bottom: 140px; }
+
+
+.welcome-hero{
+    position: relative;
+    background: linear-gradient(180deg,#022b44 0%, #0b5ed7 60%);
+    color: #fff;
+    padding: 3.5rem 1.25rem;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(2,27,64,0.28);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+
+.welcome-hero::after{
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 18px;
+    height: 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.06) 0 25%, rgba(255,255,255,0.18) 26% 50%, rgba(255,255,255,0.06) 51% 75%, rgba(255,255,255,0.04) 76% 100%);
+    border-radius: 4px;
+    transform: translateY(20px);
+    opacity: 0.9;
+}
+
+
+.welcome-hero h1{ color:#fff; text-shadow: 0 3px 12px rgba(0,0,0,0.4); margin-bottom: 0.6rem; }
+.welcome-hero p.lead{ color: rgba(255,255,255,0.92); font-size: 1.15rem; }
+
+
+.hero-image{
+    max-width:320px;
+    border-radius:12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    transform-origin: center;
+    display: inline-block;
+    will-change: transform;
+    animation: planeFloat 6s ease-in-out infinite;
+}
+
+
+.welcome-card{
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 8px 20px rgba(11,30,60,0.06);
+    color: #082033;
+}
+
+
+.btn-welcome-primary{
+    background: #ffc107;
+    color: #082033;
+    font-weight: 700;
+    border: none;
+}
+.btn-welcome-outline{
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.85);
+    background: transparent;
+}
+
+
+.feature-list { list-style: none; padding: 0; margin: 0; display:flex; gap:1rem; flex-wrap:wrap; }
+.feature-list li { background: rgba(255,255,255,0.06); padding:0.6rem 0.9rem; border-radius:8px; color:#fff; font-weight:600; font-size:0.95rem; }
+
+@keyframes planeFloat {
+    0% { transform: translateY(0px) rotate(-3deg); }
+    50% { transform: translateY(-10px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(-3deg); }
+}
+@media (max-width: 767.98px){
+    .hero-image{ display: none; }
+    .welcome-hero{ padding: 2rem 1rem; border-radius: 10px; }
+    .feature-list { justify-content: center; }
+}

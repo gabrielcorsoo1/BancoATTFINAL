@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AtlasAir.Interfaces;
 using AtlasAir.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +32,15 @@ namespace AtlasAir.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var isAdmin = HttpContext.Session.GetString("IsAdmin") == "1";
+
+            
+            if (!isAdmin)
+            {
+                return View("Welcome");
+            }
+
+            
             var aircrafts = await _aircraftRepository.GetAllAsync();
             var airports = await _airportRepository.GetAllAsync();
             var customers = await _customerRepository.GetAllAsync();

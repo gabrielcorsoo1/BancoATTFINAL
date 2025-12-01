@@ -9,14 +9,14 @@ namespace AtlasAir.Data
     {
         public static void Initialize(AtlasAirDbContext context)
         {
-            // Aplica migrations pendentes ao iniciar a aplicação.
+            
             context.Database.Migrate();
 
-            // Garantir que exista um administrador — útil em DB já existente
+         
             if (!context.Customers.Any(c => c.IsAdmin))
             {
                 var adminEmail = "admin@atlasair.local";
-                // não criar duplicado se já existir com esse email
+                
                 if (!context.Customers.Any(c => c.Email == adminEmail))
                 {
                     var admin = new Customer
@@ -24,7 +24,7 @@ namespace AtlasAir.Data
                         Name = "Administrador",
                         Email = adminEmail,
                         Phone = "",
-                        PasswordHash = PasswordHasher.Hash("Admin@123"), // senha inicial — altere depois
+                        PasswordHash = PasswordHasher.Hash("Admin@123"),
                         IsAdmin = true,
                         IsSpecialCustomer = false
                     };
@@ -35,7 +35,7 @@ namespace AtlasAir.Data
 
             if (context.Airports.Any())
             {
-                return; // já semeado
+                return; 
             }
 
             var gru = new Airport

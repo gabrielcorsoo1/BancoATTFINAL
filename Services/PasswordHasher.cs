@@ -6,7 +6,7 @@ namespace AtlasAir.Services
 {
     public static class PasswordHasher
     {
-        // Gera hash com salt (PBKDF2). Formato retornado: {saltBase64}.{hashBase64}
+        
         public static string Hash(string password)
         {
             byte[] salt = new byte[16];
